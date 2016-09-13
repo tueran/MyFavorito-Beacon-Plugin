@@ -22,7 +22,7 @@
 #include "TargetConditionals.h"
 
 #import <Cordova/CDV.h>
-#import "CDVDevice.h"
+#import "Beacon.h"
 
 @implementation UIDevice (ModelVersion)
 
