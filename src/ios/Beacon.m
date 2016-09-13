@@ -41,10 +41,10 @@
 
 @end
 
-@interface CDVDevice () {}
+@interface Beacon () {}
 @end
 
-@implementation CDVDevice
+@implementation Beacon
 
 - (NSString*)uniqueAppInstanceIdentifier:(UIDevice*)device
 {
