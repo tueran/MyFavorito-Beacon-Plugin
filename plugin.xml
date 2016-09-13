@@ -50,12 +50,12 @@
         <framework src="SystemConfiguration.framework" />
         <framework src="lib/EstimoteSDK/EstimoteSDK.framework" />
         
-        <header-file src="lib/ios/EstimoteSDK/Headers/ESTBeaconManager.h"/>
-        <header-file src="lib/ios/EstimoteSDK/Headers/ESTBeaconRegion.h"/>
-        <header-file src="lib/ios/EstimoteSDK/Headers/ESTBeaconVO.h"/>
-        <header-file src="lib/ios/EstimoteSDK/Headers/ESTBeaconDefinitions.h"/>
-        <header-file src="lib/ios/EstimoteSDK/Headers/ESTBeacon.h"/>
-        <header-file src="lib/ios/EstimoteSDK/Headers/ESTDefinitions.h" custom="true" />
+        <header-file src="lib/EstimoteSDK/Headers/ESTBeaconManager.h"/>
+        <header-file src="lib/EstimoteSDK/Headers/ESTBeaconRegion.h"/>
+        <header-file src="lib/EstimoteSDK/Headers/ESTBeaconVO.h"/>
+        <header-file src="lib/EstimoteSDK/Headers/ESTBeaconDefinitions.h"/>
+        <header-file src="lib/EstimoteSDK/Headers/ESTBeacon.h"/>
+        <header-file src="lib/EstimoteSDK/Headers/ESTDefinitions.h" custom="true" />
         
         <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
             <string>This application uses your location to send you special offers.</string>
