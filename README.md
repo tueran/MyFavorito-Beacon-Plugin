@@ -33,12 +33,6 @@ This plugin let set you `Beacons`.
 
     cordova plugin add https://github.com/tueran/MyFavorito-Beacon-Plugin
 
-- Add the plugin to it
-
-```bash
-cordova plugin add https://github.com/tueran/Beacon
-```
-
 - Add to AppDelegate.m
 ```bash
 #import <EstimoteSDK/EstimoteSDK.h>
@@ -51,6 +45,32 @@ cordova plugin add https://github.com/tueran/Beacon
     [[Beacon sharedManager] start];
 }
 
+```
+
+- Add to ViewController.h
+```bash
+#import <EstimoteSDK/EstimoteSDK.h>
+
+@interface MainViewController : CDVViewController <ESTBeaconManagerDelegate, CLLocationManagerDelegate>
+
+@property (nonatomic, strong) CLBeacon *beacon;
+@property (nonatomic, strong) ESTBeaconManager *beaconManager;
+@property (nonatomic, strong) CLBeaconRegion *beaconRegion;
+
+@end
+```
+
+- Add to ViewController.m
+```bash
+#import "Beacon.h"
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    
+    [[Beacon sharedManager] setDelegate:self];   
+}
 ```
 
     
