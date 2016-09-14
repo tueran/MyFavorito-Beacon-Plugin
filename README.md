@@ -33,6 +33,28 @@ This plugin let set you `Beacons`.
 
     cordova plugin add https://github.com/tueran/MyFavorito-Beacon-Plugin
 
+- Add the plugin to it
+
+```bash
+cordova plugin add https://github.com/tueran/Beacon
+```
+
+- Add to AppDelegate.m
+```bash
+#import <EstimoteSDK/EstimoteSDK.h>
+#import "Beacon.h"
+
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+{
+    ......
+
+    [[Beacon sharedManager] start];
+}
+
+```
+
+    
+
 ## Properties
 
 - device.cordova
