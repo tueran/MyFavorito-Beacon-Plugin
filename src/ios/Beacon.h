@@ -19,11 +19,12 @@
 #define KEY_BEACON_MAJOR @"major"
 #define KEY_BEACON_MINOR @"minor"
 
-@interface Beacon : CDVPlugin <ESTBeaconManagerDelegate, CLLocationManagerDelegate>
+//@interface Beacon : CDVPlugin <ESTBeaconManagerDelegate, CLLocationManagerDelegate>
+@interface Beacon : CDVPlugin <CLLocationManagerDelegate>
 
 @property (nonatomic, retain) NSMutableArray* beaconLocationCallbacks;
 @property (nonatomic, retain) NSMutableArray* beaconCallbacks;
-@property (nonatomic, weak) id<ESTBeaconManagerDelegate> delegate;
+//@property (nonatomic, weak) id<ESTBeaconManagerDelegate> delegate;
 
 
 + (Beacon *) sharedManager;
