@@ -49,7 +49,7 @@
         <framework src="CoreBluetooth.framework" />
         <framework src="SystemConfiguration.framework" />        
 
-        <framework src="lib/EstimoteSDK/EstimoteSDK.framework" />
+        <framework src="lib/EstimoteSDK/EstimoteSDK.framework" framework="true" />
         
         <!--
         <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeaconManager.h"/>
