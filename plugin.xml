@@ -67,6 +67,10 @@
             <string>This application monitors your location to show you promotional offers in shops you're passing by.</string>
         </config-file>
         
+        <config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription">
+            <string>Bluetooth</string>
+        </config-file>
+        
     </platform>
 
    

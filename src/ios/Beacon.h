@@ -1,30 +1,44 @@
-/*
- Licensed to the Apache Software Foundation (ASF) under one
- or more contributor license agreements.  See the NOTICE file
- distributed with this work for additional information
- regarding copyright ownership.  The ASF licenses this file
- to you under the Apache License, Version 2.0 (the
- "License"); you may not use this file except in compliance
- with the License.  You may obtain a copy of the License at
+//
+//  Beacon.h
+//  Beacon
+//
+//  Created by Daniel Mauer on 13.09.2016.
+//
+//
 
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing,
- software distributed under the License is distributed on an
- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- KIND, either express or implied.  See the License for the
- specific language governing permissions and limitations
- under the License.
- */
-
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <Cordova/CDV.h>
 #import <Cordova/CDVPlugin.h>
+#import <CoreLocation/CoreLocation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <MapKit/MapKit.h>
+#import <EstimoteSDK/EstimoteSDK.h>
 
-@interface Beacon : CDVPlugin
-{}
+#define KEY_BEACON_ID @"bid"
+#define KEY_BEACON_PUUID @"puuid"
+#define KEY_BEACON_MAJOR @"major"
+#define KEY_BEACON_MINOR @"minor"
 
-+ (NSString*)cordovaVersion;
+@interface Beacon : CDVPlugin <ESTBeaconManagerDelegate, CLLocationManagerDelegate>
 
-- (void)getDeviceInfo:(CDVInvokedUrlCommand*)command;
+@property (nonatomic, retain) NSMutableArray* beaconLocationCallbacks;
+@property (nonatomic, retain) NSMutableArray* beaconCallbacks;
+@property (nonatomic, weak) id<ESTBeaconManagerDelegate> delegate;
+
+
++ (Beacon *) sharedManager;
+- (void) start;
+- (void) checkBluetoothAccess;
+- (BOOL) isBluetoothActive;
+
+
+#pragma mark Plugin Functions
+
+- (void) addBeacon:(CDVInvokedUrlCommand*)command;
+- (void) removeBeacon:(CDVInvokedUrlCommand*)command;
+- (void) getWatchedBeaconIds:(CDVInvokedUrlCommand*)command;
+- (void) setHost:(CDVInvokedUrlCommand*)command;
+- (void) getHost:(CDVInvokedUrlCommand*)command;
+- (void) setToken:(CDVInvokedUrlCommand*)command;
 
 @end

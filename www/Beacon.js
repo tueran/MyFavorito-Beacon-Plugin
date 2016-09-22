@@ -1,3 +1,4 @@
+cordova.define("com.siteforum.plugins.beacon.Beacon", function(require, exports, module) {
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,22 +19,26 @@
  * under the License.
  *
 */
-
+/*
 var argscheck = require('cordova/argscheck'),
     channel = require('cordova/channel'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec'),
     cordova = require('cordova');
-
-channel.createSticky('onCordovaInfoReady');
+*/
+               
+var exec = require('cordova/exec');
+               
+//channel.createSticky('onCordovaInfoReady');
 // Tell cordova channel to wait on the CordovaInfoReady event
-channel.waitForInitialization('onCordovaInfoReady');
+//channel.waitForInitialization('onCordovaInfoReady');
 
 /**
  * This represents the mobile device, and provides properties for inspecting the model, version, UUID of the
  * phone, etc.
  * @constructor
  */
+/*
 function Device() {
     this.available = false;
     this.platform = null;
@@ -68,16 +73,61 @@ function Device() {
         });
     });
 }
-
+*/
+               
+               
 /**
  * Get device info
  *
  * @param {Function} successCallback The function to call when the heading data is available
  * @param {Function} errorCallback The function to call when there is an error getting the heading data. (OPTIONAL)
  */
+               
+/*
 Device.prototype.getInfo = function(successCallback, errorCallback) {
     argscheck.checkArgs('fF', 'Device.getInfo', arguments);
     exec(successCallback, errorCallback, "Device", "getDeviceInfo", []);
 };
 
 module.exports = new Device();
+
+});
+*/
+
+
+function Beacon() {}
+
+Beacon.prototype.addBeacon = function(success, fail, params) {
+exec(success, fail, "Beacon", "addBeacon", [params || {}]);
+};
+
+Beacon.prototype.removeBeacon = function(success, fail, params) {
+exec(success, fail, "Beacon", "removeBeacon", [params || {}]);
+};
+
+Beacon.prototype.setHost = function(success, fail, params) {
+exec(success, fail, "Beacon", "setHost", [params || {}]);
+};
+
+Beacon.prototype.getHost = function(success, fail) {
+exec(success, fail, "Beacon", "getHost", []);
+};
+               
+Beacon.prototype.setToken = function(success, fail, params) {
+exec(success, fail, "Beacon", "setToken", [params || {}]);
+};
+               
+/*
+ Params:
+ NONE
+ */
+Beacon.prototype.getWatchedBeaconIds = function(success, fail) {
+exec(success, fail, "Beacon", "getWatchedBeaconIds", []);
+};
+
+
+
+// exports
+var Beacon = new Beacon();
+module.exports = Beacon;
+ });
