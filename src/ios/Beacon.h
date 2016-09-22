@@ -12,19 +12,19 @@
 #import <CoreLocation/CoreLocation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <MapKit/MapKit.h>
-//#import <EstimoteSDK/EstimoteSDK.h>
+#import <EstimoteSDK/EstimoteSDK.h>
 
 #define KEY_BEACON_ID @"bid"
 #define KEY_BEACON_PUUID @"puuid"
 #define KEY_BEACON_MAJOR @"major"
 #define KEY_BEACON_MINOR @"minor"
 
-//@interface Beacon : CDVPlugin <ESTBeaconManagerDelegate, CLLocationManagerDelegate>
-@interface Beacon : CDVPlugin <CLLocationManagerDelegate>
+@interface Beacon : CDVPlugin <ESTBeaconManagerDelegate, CLLocationManagerDelegate>
+
 
 @property (nonatomic, retain) NSMutableArray* beaconLocationCallbacks;
 @property (nonatomic, retain) NSMutableArray* beaconCallbacks;
-//@property (nonatomic, weak) id<ESTBeaconManagerDelegate> delegate;
+@property (nonatomic, weak) id<ESTBeaconManagerDelegate> delegate;
 
 
 + (Beacon *) sharedManager;

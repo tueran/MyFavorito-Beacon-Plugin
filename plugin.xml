@@ -49,7 +49,7 @@
         <framework src="CoreBluetooth.framework" />
         <framework src="SystemConfiguration.framework" />
         
-        <!--
+        
 
         <framework src="lib/EstimoteSDK/EstimoteSDK.framework" />
         <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeaconManager.h"/>
@@ -58,7 +58,9 @@
         <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeaconDefinitions.h"/>
         <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeacon.h"/>
         <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTDefinitions.h" custom="true" />
-        -->
+        
+        
+        
         <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
             <string>This application uses your location to send you special offers.</string>
         </config-file>
