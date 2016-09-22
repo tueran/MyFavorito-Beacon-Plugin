@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <MapKit/MapKit.h>
-#import <EstimoteSDK/EstimoteSDK.h>
+//#import <EstimoteSDK/EstimoteSDK.h>
 
 #define KEY_BEACON_ID @"bid"
 #define KEY_BEACON_PUUID @"puuid"

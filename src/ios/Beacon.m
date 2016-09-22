@@ -12,10 +12,11 @@
 #import <Cordova/CDVViewController.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <CoreLocation/CoreLocation.h>
-#import <EstimoteSDK/EstimoteSDK.h>
+//#import <EstimoteSDK/EstimoteSDK.h>
 
 
-@interface Beacon () <ESTBeaconManagerDelegate, CLLocationManagerDelegate, CBCentralManagerDelegate>
+//@interface Beacon () <ESTBeaconManagerDelegate, CLLocationManagerDelegate, CBCentralManagerDelegate>
+@interface Beacon () <CLLocationManagerDelegate, CBCentralManagerDelegate>
 
 @property (nonatomic, strong) CLBeacon *beacon;
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
