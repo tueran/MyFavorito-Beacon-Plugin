@@ -28,38 +28,25 @@
     <!-- <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git</repo> -->
     <!-- <issue>https://issues.apache.org/jira/browse/CB/component/12320648</issue> -->
 
-    <js-module src="www/Beacon.js" name="Beacon">
-        <clobbers target="Beacon" />
-    </js-module>
-
+    <engines>
+        <!-- Requires > 3.5.0 because of the custom Framework tag for iOS [CB-6698] -->
+        <!-- Requires > 4.0.0 because of the Framework tag for Android that uses gradle -->
+        <engine name="cordova-ios" version=">=3.5.0" />
+    </engines>
     
-
+    
     <!-- ios -->
     <platform name="ios">
+        <js-module src="www/Beacon.js" name="Beacon">
+            <clobbers target="Beacon" />
+        </js-module>
+        
+        
         <config-file target="config.xml" parent="/*">
             <feature name="Beacon">
                 <param name="ios-package" value="Beacon"/>
             </feature>
         </config-file>
-
-        <header-file src="src/ios/Beacon.h" />
-        <source-file src="src/ios/Beacon.m" />
-        
-        <framework src="CoreLocation.framework" />
-        <framework src="CoreBluetooth.framework" />
-        <framework src="SystemConfiguration.framework" />        
-
-        <framework src="lib/EstimoteSDK/EstimoteSDK.framework" framework="true"/>
-        
-        <!--
-        <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeaconManager.h"/>
-        <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeaconRegion.h"/>
-        <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeaconVO.h"/>
-        <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeaconDefinitions.h"/>
-        <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTBeacon.h"/>
-        <header-file src="lib/EstimoteSDK/Versions/A/Headers/ESTDefinitions.h" custom="true" />
-        
-        -->
         
         <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
             <string>This application uses your location to send you special offers.</string>
@@ -72,6 +59,18 @@
         <config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription">
             <string>Bluetooth</string>
         </config-file>
+
+        <header-file src="src/ios/Beacon.h" />
+        <source-file src="src/ios/Beacon.m" />
+        
+        <framework src="CoreLocation.framework" />
+        <framework src="CoreBluetooth.framework" />
+        <framework src="SystemConfiguration.framework" />        
+
+        <!-- Estimote Framework -->
+        <framework src="src/ios/EstimoteSDK.framework" custom="true"/>
+        
+        
         
     </platform>
 
