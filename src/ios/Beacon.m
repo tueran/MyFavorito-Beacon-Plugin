@@ -19,7 +19,7 @@
 @interface Beacon () <CLLocationManagerDelegate, CBCentralManagerDelegate>
 
 @property (nonatomic, strong) CLBeacon *beacon;
-@property (nonatomic, strong) ESTBeaconManager *beaconManager;
+//@property (nonatomic, strong) ESTBeaconManager *beaconManager;
 @property (nonatomic, strong) CLBeaconRegion *beaconRegion;
 
 @property (nonatomic, strong) NSObject *beaconLocationData;
