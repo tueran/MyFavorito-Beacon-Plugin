@@ -24,7 +24,7 @@ description: Beacon Plugin.
 
 # MyFavorito-Beacon-Plugin
 
-This plugin let set you `Beacons`.
+This plugin let set your `Beacons`.
 
 
 
@@ -76,15 +76,6 @@ This plugin let set you `Beacons`.
     
 
 ## Properties
-
-- device.cordova
-- device.model
-- device.platform
-- device.uuid
-- device.version
-- device.manufacturer
-- device.isVirtual
-- device.serial
 
 - addBeacon - Add a region to moitoring
 - removeBeacon - Remove a region from monitoring
