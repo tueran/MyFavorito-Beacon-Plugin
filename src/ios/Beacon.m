@@ -78,12 +78,8 @@ static Beacon *sharedInstance = nil;
 
 
 - (id) init {
-    
-    NSLog(@"init --- ....... OK");
-    
     self = [super init];
     if (self) {
-        NSLog(@"init im self zweig");
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self; // Tells the location manager to send updates to this object
         self.beaconLocationData = nil;
@@ -103,18 +99,12 @@ static Beacon *sharedInstance = nil;
                                  initWithDelegate:self
                                  queue:dispatch_get_main_queue()
                                  options:@{CBCentralManagerOptionShowPowerAlertKey: @(NO)}];
-        
-        NSLog(@"init - BluetoothManager: %@", self.bluetoothManager);
-        NSLog(@"init - Bluetooth Status: %ld", (long)[self.bluetoothManager state]);
-        
     }
     return self;
 }
 
 - (void)start
 {
-    NSLog(@"BT Start");
-    //   NSLog(@"Daniel: - monitored Regions: %@", [self.locationManager monitoredRegions]);
     for (CLBeaconRegion *beacon in [self.locationManager monitoredRegions])
     {
         if ([beacon isKindOfClass:[CLBeaconRegion class]]) {
@@ -169,22 +159,16 @@ static Beacon *sharedInstance = nil;
     
     NSUserDefaults *getBeaconPreferences = [NSUserDefaults standardUserDefaults];
     NSString *getBeaconHost = [getBeaconPreferences objectForKey:@"BeaconHost"];
-    NSLog(@"getBeaconHost - objectForKey: %@", getBeaconHost);
-    //
-    //    NSString *savedHost = (NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"BeaconHost"];
-    //    NSLog(@"savedHost: %@", savedHost);
 }
 
 - (void)getHost:(CDVInvokedUrlCommand*)command
 {
     NSUserDefaults *getBeaconPreferences = [NSUserDefaults standardUserDefaults];
     NSString *getBeaconHost = [getBeaconPreferences objectForKey:@"BeaconHost"];
-    NSLog(@"getBeaconHost - objectForKey: %@", getBeaconHost);
     
     NSString* callbackId = command.callbackId;
     CDVPluginResult* result = nil;
     if (getBeaconHost != nil) {
-        //result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:watchedBeaconRegions];
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:getBeaconHost];
         [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     }
@@ -211,17 +195,11 @@ static Beacon *sharedInstance = nil;
 #pragma mark - check if bluetooth is activated
 
 - (void)checkBluetoothAccess {
-    
-    NSLog(@"checkBluetoothAccess ------- ");
-    
     if(!self.cbManager) {
         self.cbManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     }
     
     CBCentralManagerState state = [self.cbManager state];
-    
-    NSLog(@"CBCentralManagerState = %ld", (long)state);
-    
     if(state == CBCentralManagerStateUnknown) {
         NSLog(@"Bluetooth Status: Unknown");
     }
@@ -234,7 +212,6 @@ static Beacon *sharedInstance = nil;
 }
 
 - (void)startBluetoothStatusMonitoring {
-    NSLog(@"startBluetoothStatusMonitoring");
     self.bluetoothManager = [[CBCentralManager alloc]
                              initWithDelegate:self
                              queue:dispatch_get_main_queue()
@@ -242,24 +219,18 @@ static Beacon *sharedInstance = nil;
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    
-    NSLog(@"---- Daniel CentralManager");
-    
     if ([central state] == CBCentralManagerStatePoweredOn) {
         self.bluetoothEnabled = YES;
         NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
         [preferences setObject:@"YES" forKey:@"BluetoothStatus"];
         [preferences synchronize]; //at the end of storage
-        NSLog(@"Daniel Bluetooth is activated");
     }
     else {
         self.bluetoothEnabled = NO;
         NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
         [preferences setObject:@"NO" forKey:@"BluetoothStatus"];
         [preferences synchronize]; //at the end of storage
-        NSLog(@"Daniel Bluetooth is deactivated");
     }
-    NSLog(@"CBCentralManagerStatePoweredOff: %ld", (long)CBCentralManagerStatePoweredOff);
     
     /* available options
      CBCentralManagerStateUnknown
@@ -273,20 +244,16 @@ static Beacon *sharedInstance = nil;
     
     // This delegate method will monitor for any changes in bluetooth state and respond accordingly
     
-    NSLog(@"hier ist mein ViewController CentralManager");
     NSString *stateString = nil;
     switch(_bluetoothManager.state)
     {
-        case CBCentralManagerStateResetting: stateString = @"The connection with the system service was momentarily lost, update imminent."; NSLog(@"test #1"); break;
-        case CBCentralManagerStateUnsupported: stateString = @"The platform doesn't support Bluetooth Low Energy."; NSLog(@"test #2"); break;
-        case CBCentralManagerStateUnauthorized: stateString = @"The app is not authorized to use Bluetooth Low Energy."; NSLog(@"test #3"); break;
-        case CBCentralManagerStatePoweredOff: stateString = @"Bluetooth is currently powered off."; NSLog(@"test #4"); break;
-        case CBCentralManagerStatePoweredOn: stateString = @"Bluetooth is currently powered on and available to use."; NSLog(@"test #5"); break;
-        default: stateString = @"State unknown, update imminent."; NSLog(@"test #6"); break;
+        case CBCentralManagerStateResetting: stateString = @"The connection with the system service was momentarily lost, update imminent."; break;
+        case CBCentralManagerStateUnsupported: stateString = @"The platform doesn't support Bluetooth Low Energy."; break;
+        case CBCentralManagerStateUnauthorized: stateString = @"The app is not authorized to use Bluetooth Low Energy."; break;
+        case CBCentralManagerStatePoweredOff: stateString = @"Bluetooth is currently powered off."; break;
+        case CBCentralManagerStatePoweredOn: stateString = @"Bluetooth is currently powered on and available to use."; break;
+        default: stateString = @"State unknown, update imminent."; break;
     }
-    NSLog(@"Daniel Bluetooth State: %@",stateString);
-    
-    
 }
 
 - (BOOL) isBluetoothActive
@@ -307,22 +274,6 @@ static Beacon *sharedInstance = nil;
 
 -(void)addBeacon:(CDVInvokedUrlCommand *)command
 {
-    
-    //   /////////////////////////////////
-    //   ////   Fix to test an error   ///
-    //   /////////////////////////////////
-    
-    //return NSLog(@"errrrrrrrrrrrrrror");
-    //////////////////////////////////////////
-    
-    
-    
-    NSLog(@"isBluetoothActive: %d",self.isBluetoothActive);
-    NSLog(self.isBluetoothActive ? @"Yes" : @"No");
-    
-    NSLog(@"BluetoothEnabled: %d", self.bluetoothEnabled);
-    
-    
     if (self.isBluetoothActive) {
         // setup the beacon manager
         self.beaconManager = [[ESTBeaconManager alloc] init];
@@ -343,7 +294,7 @@ static Beacon *sharedInstance = nil;
                                                                     major:majorInt
                                                                     minor:minorInt
                                                                identifier:beaconId];
-        //    NSLog(@"self.beaconRegion: %@", self.beaconRegion);
+ 
         // let us know when we exit and enter a region
         self.beaconRegion.notifyOnEntry = YES;
         self.beaconRegion.notifyOnExit = YES;
@@ -362,16 +313,12 @@ static Beacon *sharedInstance = nil;
         // must have on iOS8
         //[self.beaconManager requestAlwaysAuthorization];
         
-        //NSLog(@"Monitored Region: %@", [self.beaconManager monitoredRegions]);
-        
     } else {
-        NSLog(@"Adden nicht moeglich");
         /*
          if(!self.cbManager) {
          self.cbManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
          }
          */
-        NSLog(@"cbManager: %@", self.cbManager);
     }
 }
 
@@ -379,7 +326,6 @@ static Beacon *sharedInstance = nil;
     
     if (self.isBluetoothActive) {
         NSString* callbackId = command.callbackId;
-        //    NSLog(@"callbackId: %@", callbackId);
         
         NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
         [options setObject:[command.arguments objectAtIndex:0] forKey:@"bid"];
@@ -403,27 +349,14 @@ static Beacon *sharedInstance = nil;
         for (CLBeaconRegion *beaconRegion in beaconRegionArray) {
             
             if ([combinedStuff isEqualToString:beaconRegion.identifier]) {
-                //            NSLog(@"=======    EQUAL   ======= %@", beaconRegion.identifier);
-                //            NSLog(@"identifier: %@", beaconRegion.identifier);
-                //            NSLog(@"uuid: %@", beaconRegion.proximityUUID);
-                //            NSLog(@"major: %@", beaconRegion.major);
-                //            NSLog(@"minor: %@", beaconRegion.minor);
-                
                 
                 NSString *beaconIdentifier = (NSString *)beaconRegion.identifier;
                 NSString *beaconProximityUUID = (NSString *)beaconRegion.proximityUUID.UUIDString;
-                //            NSLog(@"beaconProximityUUID: %@", beaconProximityUUID);
                 
                 int beaconMajorInt = [beaconRegion.major intValue];
                 int beaconMinorInt = [beaconRegion.minor intValue];
                 
                 NSUUID *beaconUUID = [[NSUUID alloc] initWithUUIDString:beaconProximityUUID];
-                
-                //            NSLog(@"beaconIdentifier: %@", beaconIdentifier);
-                //            NSLog(@"beaconProximityUUID: %@", beaconProximityUUID);
-                //            NSLog(@"beaconMajorInt: %d", beaconMajorInt);
-                //            NSLog(@"beaconMinorInt: %d", beaconMinorInt);
-                //            NSLog(@"beaconUUID: %@", beaconUUID);
                 
                 CLBeaconRegion *beaconRegionStop = [[CLBeaconRegion alloc] initWithProximityUUID:beaconUUID
                                                                                            major:beaconMajorInt
@@ -431,7 +364,6 @@ static Beacon *sharedInstance = nil;
                                                                                       identifier:beaconIdentifier];
                 
                 // stop monitoring
-                //            NSLog(@"self.beaconManager:%@", self.beaconManager);
                 [self.beaconManager stopMonitoringForRegion:beaconRegionStop];
                 [self returnMonitoringForBeaconRegionCallback:callbackId];
             }
@@ -449,20 +381,11 @@ static Beacon *sharedInstance = nil;
 
 // check for region failure
 -(void)beaconManager:(ESTBeaconManager *)manager monitoringDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error {
-    //    NSLog(@"Region Did Fail: Manager:%@ Region:%@ Error:%@",manager, region, error);
     
     NSMutableDictionary* posError = [NSMutableDictionary dictionaryWithCapacity:2];
     
     [posError setObject: [NSNumber numberWithInt: error.code] forKey:@"code"];
     [posError setObject: region.identifier forKey: @"beacocnid"];
-    
-    //    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:posError];
-    //            if (callbackId) {
-    //            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
-    //        }
-    //
-    //    self.beaconLocationData.beaconCallbacks = [NSMutableArray array];
-    NSLog(@"monitoringDidFailForRegion Error: %@", error);
     
 }
 
@@ -475,26 +398,7 @@ static Beacon *sharedInstance = nil;
 //Beacon manager did enter region
 - (void)beaconManager:(ESTBeaconManager *)manager didEnterRegion:(CLBeaconRegion *)region
 {
-    //Adding a custom local notification to be presented
-    //            UILocalNotification *notification = [[UILocalNotification alloc]init];
-    //            notification.alertBody = @"Youve enter a region!";
-    //            notification.soundName = @"Default.mp3";
-    //            NSLog(@"Youve entered");
-    //            [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-    
-    // Start Local Notification
-    //    UILocalNotification *notification = [UILocalNotification new];
-    //    notification.alertBody =
-    //    @"Your gate closes in 47 minutes. "
-    //    "Current security wait time is 15 minutes, "
-    //    "and it's a 5 minute walk from security to the gate. "
-    //    "Looks like you've got plenty of time!";
-    //    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-    
-    NSLog(@"did Enter a region ala Daniel");
-    
-    
-    
+
     [self triggerURL:@"far" withIdentifier:region.identifier];
     [[self locationManager] startRangingBeaconsInRegion:region];
     
@@ -507,12 +411,6 @@ static Beacon *sharedInstance = nil;
 //Beacon Manager did exit the region
 - (void)beaconManager:(ESTBeaconManager *)manager didExitRegion:(CLBeaconRegion *)region
 {
-    //adding a custon local notification
-    //        UILocalNotification *notification = [[UILocalNotification alloc]init];
-    //        notification.alertBody = @"Youve exited!!!";
-    //        NSLog(@"Youve exited");
-    //        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-    
     // call the url
     [self triggerURL:@"away" withIdentifier:region.identifier];
     
@@ -575,21 +473,8 @@ static Beacon *sharedInstance = nil;
 
 - (void)getWatchedBeaconIds:(CDVInvokedUrlCommand*)command {
     
-    //    ////////////////////////////////////////
-    //    /////  Fix for testing an error     ////
-    //    ////////////////////////////////////////
-    //return NSLog(@"getWatchedBeaconIds - Test");
-    //    ////////////////////////////////////////
-    
-    
-    //    NSLog(@"watchedBeacons:");
-    //    NSLog(@"isBluetoothActive??? %hhd", self.isBluetoothActive);
-    NSLog(@"isBluetoothActive: %d",self.isBluetoothActive);
-    
     if (self.isBluetoothActive) {
         NSString* callbackId = command.callbackId;
-        
-        //NSLog(@"daniel - getWatchedBeaconIds");
         
         // init the beacon manager
         self.beaconManager = [[ESTBeaconManager alloc] init];
@@ -610,7 +495,6 @@ static Beacon *sharedInstance = nil;
             } else if ([region isKindOfClass:[CLBeaconRegion class]]) {
                 
                 // filtered out beacons from watched regions
-                //NSLog(@"region: %@", region);
                 [beaconRegionArray addObject:region];
             }
         }
@@ -629,7 +513,6 @@ static Beacon *sharedInstance = nil;
             [regionStatus setObject: [NSNumber numberWithInt: CDVCommandStatus_OK] forKey:@"code"];
             [regionStatus setObject: @"BeaconRegion Success" forKey: @"message"];
             [regionStatus setObject: watchedBeaconRegions forKey: @"beaconRegionids"];
-            //result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:regionStatus];
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:watchedBeaconRegions];
         } else {
             [regionStatus setObject: [NSNumber numberWithInt: CDVCommandStatus_ERROR] forKey:@"code"];
@@ -638,7 +521,6 @@ static Beacon *sharedInstance = nil;
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:regionStatus];
         }
         
-        //        NSLog(@"daniel - sendPluginResult: %@, callbackId: %@", result, callbackId);
         [self.commandDelegate sendPluginResult:result callbackId:callbackId];
         
         
@@ -675,10 +557,9 @@ static Beacon *sharedInstance = nil;
     NSString *getUsertoken = [preferences stringForKey:@"BeaconUsertoken"];
     
     
-    //NSString* beaconUrl = [NSString stringWithFormat:@"https://%@/sf/beacons/%@/away?s=&token=%@", getHost, region.identifier, getUsertoken];
+    //    NSString* beaconUrl = [NSString stringWithFormat:@"https://%@/sf/beacons/%@/away?s=&token=%@", getHost, region.identifier, getUsertoken];
     //    NSString *beaconUrl = [NSString stringWithFormat:@"https://www.myfavorito.com/sf/daniel_beacons/%@/%@/?device(id)=9876543210&s=", identifier, proximity];
-    //NSString *beaconUrl = [NSString stringWithFormat:@"https://%@/sf/daniel_beacons/%@/%@/?token=%@&s=", getHost, identifier, proximity, getUsertoken];
-    
+    //    NSString *beaconUrl = [NSString stringWithFormat:@"https://%@/sf/daniel_beacons/%@/%@/?token=%@&s=", getHost, identifier, proximity, getUsertoken];
     //    NSString *beaconUrl = [NSString stringWithFormat:@"https://%@/sf/daniel_beacons/%@/%@/?device(id)=0&s=", getHost, identifier, proximity ];
     
 #pragma mark - Change for golive
@@ -687,7 +568,6 @@ static Beacon *sharedInstance = nil;
     
     
     NSURL* sfUrl = [NSURL URLWithString:beaconUrl];
-    // NSLog(@"URL: %@", sfUrl);
     
     // set the request
     NSURLRequest* sfRequest = [NSURLRequest requestWithURL:sfUrl];
@@ -718,11 +598,8 @@ static Beacon *sharedInstance = nil;
     };
     
     
-    // enqueueBlock();
-    
     // Load NSUserDefaults
     NSDate *savedDate = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"beaconTimer%@_%@", identifier, proximity]];
-    NSLog(@"savedDate: %@", savedDate);
     
     // if savedDate = nil set current time + 5 minutes
     if (savedDate == nil) {
@@ -741,16 +618,16 @@ static Beacon *sharedInstance = nil;
     NSDate *dateNow = [NSDate date];
     switch ([dateNow compare:savedDate]){
         case NSOrderedAscending:
-            NSLog(@"NSOrderedAscending");
-            NSLog(@"Time is into the future");
+//            NSLog(@"NSOrderedAscending");
+//            NSLog(@"Time is into the future");
             
             break;
         case NSOrderedSame:
-            NSLog(@"NSOrderedSame");
+//            NSLog(@"NSOrderedSame");
             break;
         case NSOrderedDescending:
-            NSLog(@"NSOrderedDescending");
-            NSLog(@"Date is in past");
+//            NSLog(@"NSOrderedDescending");
+//            NSLog(@"Date is in past");
             
             NSDate *dateNow = [NSDate date];
             NSDate *dateToSave = [dateNow dateByAddingTimeInterval:300];
@@ -763,10 +640,6 @@ static Beacon *sharedInstance = nil;
             
             break;
     }
-    
-    // remove for golive
-    //enqueueBlock();
-    
 }
 
 
